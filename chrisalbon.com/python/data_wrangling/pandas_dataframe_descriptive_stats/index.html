@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Descriptive Statistics For pandas Dataframe" />
+<meta property="og:description" content="Descriptive statistics for pandas dataframe." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/python/data_wrangling/pandas_dataframe_descriptive_stats/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Descriptive Statistics For pandas Dataframe"/>
+<meta name="twitter:description" content="Descriptive statistics for pandas dataframe."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Descriptive Statistics For pandas Dataframe",
+  "url": "https://chrisalbon.com/python/data_wrangling/pandas_dataframe_descriptive_stats/",
+  "wordCount": "244",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "Descriptive statistics for pandas dataframe."
+}
+</script> 
+
+    <title>Descriptive Statistics For pandas Dataframe</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Descriptive Statistics For pandas Dataframe</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<h3 id="import-modules">Import modules</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span></code></pre></div>
+<h3 id="create-dataframe">Create dataframe</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Jason&#39;</span><span class="p">,</span> <span class="s1">&#39;Molly&#39;</span><span class="p">,</span> <span class="s1">&#39;Tina&#39;</span><span class="p">,</span> <span class="s1">&#39;Jake&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy&#39;</span><span class="p">],</span> 
+        <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">73</span><span class="p">],</span> 
+        <span class="s1">&#39;preTestScore&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+        <span class="s1">&#39;postTestScore&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">94</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">70</span><span class="p">]}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;preTestScore&#39;</span><span class="p">,</span> <span class="s1">&#39;postTestScore&#39;</span><span class="p">])</span>
+<span class="n">df</span></code></pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>age</th>
+      <th>preTestScore</th>
+      <th>postTestScore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> Jason</td>
+      <td> 42</td>
+      <td>  4</td>
+      <td> 25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> Molly</td>
+      <td> 52</td>
+      <td> 24</td>
+      <td> 94</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>  Tina</td>
+      <td> 36</td>
+      <td> 31</td>
+      <td> 57</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>  Jake</td>
+      <td> 24</td>
+      <td>  2</td>
+      <td> 62</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>   Amy</td>
+      <td> 73</td>
+      <td>  3</td>
+      <td> 70</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 4 columns</p>
+</div>
+
+<h3 id="the-sum-of-all-the-ages">The sum of all the ages</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span></code></pre></div>
+<pre><code>227
+</code></pre>
+
+<h3 id="mean-pretestscore">Mean preTestScore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></code></pre></div>
+<pre><code>12.800000000000001
+</code></pre>
+
+<h3 id="cumulative-sum-of-pretestscores-moving-from-the-rows-from-the-top">Cumulative sum of preTestScores, moving from the rows from the top</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span></code></pre></div>
+<pre><code>0     4
+1    28
+2    59
+3    61
+4    64
+Name: preTestScore, dtype: int64
+</code></pre>
+
+<h3 id="summary-statistics-on-pretestscore">Summary statistics on preTestScore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span></code></pre></div>
+<pre><code>count     5.000000
+mean     12.800000
+std      13.663821
+min       2.000000
+25%       3.000000
+50%       4.000000
+75%      24.000000
+max      31.000000
+Name: preTestScore, dtype: float64
+</code></pre>
+
+<h3 id="count-the-number-of-non-na-values">Count the number of non-NA values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span></code></pre></div>
+<pre><code>5
+</code></pre>
+
+<h3 id="minimum-value-of-pretestscore">Minimum value of preTestScore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="nb">min</span><span class="p">()</span></code></pre></div>
+<pre><code>2
+</code></pre>
+
+<h3 id="maximum-value-of-pretestscore">Maximum value of preTestScore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="nb">max</span><span class="p">()</span></code></pre></div>
+<pre><code>31
+</code></pre>
+
+<h3 id="median-value-of-pretestscore">Median value of preTestScore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span></code></pre></div>
+<pre><code>4.0
+</code></pre>
+
+<h3 id="sample-variance-of-pretestscore-values">Sample variance of preTestScore values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span></code></pre></div>
+<pre><code>186.69999999999999
+</code></pre>
+
+<h3 id="sample-standard-deviation-of-pretestscore-values">Sample standard deviation of preTestScore values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span></code></pre></div>
+<pre><code>13.663820841916802
+</code></pre>
+
+<h3 id="skewness-of-pretestscore-values">Skewness of preTestScore values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span></code></pre></div>
+<pre><code>0.74334524573267591
+</code></pre>
+
+<h3 id="kurtosis-of-pretestscore-values">Kurtosis of preTestScore values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;preTestScore&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">kurt</span><span class="p">()</span></code></pre></div>
+<pre><code>-2.4673543738411525
+</code></pre>
+
+<h3 id="correlation-matrix-of-values">Correlation Matrix Of Values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span></code></pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>preTestScore</th>
+      <th>postTestScore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>age</th>
+      <td> 1.000000</td>
+      <td>-0.105651</td>
+      <td> 0.328852</td>
+    </tr>
+    <tr>
+      <th>preTestScore</th>
+      <td>-0.105651</td>
+      <td> 1.000000</td>
+      <td> 0.378039</td>
+    </tr>
+    <tr>
+      <th>postTestScore</th>
+      <td> 0.328852</td>
+      <td> 0.378039</td>
+      <td> 1.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 3 columns</p>
+</div>
+
+<h3 id="covariance-matrix-of-values">Covariance Matrix Of Values</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span></code></pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>preTestScore</th>
+      <th>postTestScore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>age</th>
+      <td> 340.80</td>
+      <td> -26.65</td>
+      <td> 151.20</td>
+    </tr>
+    <tr>
+      <th>preTestScore</th>
+      <td> -26.65</td>
+      <td> 186.70</td>
+      <td> 128.65</td>
+    </tr>
+    <tr>
+      <th>postTestScore</th>
+      <td> 151.20</td>
+      <td> 128.65</td>
+      <td> 620.30</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 3 columns</p>
+</div>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

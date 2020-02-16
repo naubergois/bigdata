@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Color Palettes in Seaborn" />
+<meta property="og:description" content="Color palettes in Seaborn." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/python/data_visualization/seaborn_color_palettes/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Color Palettes in Seaborn"/>
+<meta name="twitter:description" content="Color palettes in Seaborn."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Color Palettes in Seaborn",
+  "url": "https://chrisalbon.com/python/data_visualization/seaborn_color_palettes/",
+  "wordCount": "220",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "Color palettes in Seaborn."
+}
+</script> 
+
+    <title>Color Palettes in Seaborn</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Color Palettes in Seaborn</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<h2 id="preliminaries">Preliminaries</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;2014-05-01 18:47:05.069722&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-01 18:47:05.119994&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-02 18:47:05.178768&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-02 18:47:05.230071&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-02 18:47:05.230071&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-02 18:47:05.280592&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-03 18:47:05.332662&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-03 18:47:05.385109&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-04 18:47:05.436523&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-05-04 18:47:05.486877&#39;</span><span class="p">],</span> 
+        <span class="s1">&#39;deaths_regiment_1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">34</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">41</span><span class="p">],</span>
+        <span class="s1">&#39;deaths_regiment_2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">52</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">86</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="s1">&#39;deaths_regiment_3&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">75</span><span class="p">],</span>
+        <span class="s1">&#39;deaths_regiment_4&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">44</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">72</span><span class="p">],</span>
+        <span class="s1">&#39;deaths_regiment_5&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+        <span class="s1">&#39;deaths_regiment_6&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">84</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">24</span><span class="p">],</span>
+        <span class="s1">&#39;deaths_regiment_7&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">41</span><span class="p">]}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;battle_deaths&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths_regiment_1&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths_regiment_2&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;deaths_regiment_3&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths_regiment_4&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths_regiment_5&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;deaths_regiment_6&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths_regiment_7&#39;</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="p">)</span></code></pre></div>
+<h2 id="view-some-color-palettes">View some color palettes</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;deep&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_5_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;muted&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_6_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;bright&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_7_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;dark&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_8_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;colorblind&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_9_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;Paired&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_10_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;BuGn&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_11_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;GnBu&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_12_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;OrRd&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_13_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;PuBu&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_14_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;YlGn&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_15_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;YlGnBu&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_16_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;YlOrBr&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_17_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;YlOrRd&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_18_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;BrBG&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_19_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;PiYG&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_20_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;PRGn&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_21_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;PuOr&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_22_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;RdBu&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_23_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;RdGy&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_24_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;RdYlBu&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_25_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;RdYlGn&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_26_0.png" alt="png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&#34;Spectral&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p><img src="seaborn_color_palettes_27_0.png" alt="png" /></p>
+
+<h2 id="create-a-color-palette-and-set-it-as-the-current-color-palette">Create a color palette and set it as the current color palette</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">flatui</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;#9b59b6&#34;</span><span class="p">,</span> <span class="s2">&#34;#3498db&#34;</span><span class="p">,</span> <span class="s2">&#34;#95a5a6&#34;</span><span class="p">,</span> <span class="s2">&#34;#e74c3c&#34;</span><span class="p">,</span> <span class="s2">&#34;#34495e&#34;</span><span class="p">,</span> <span class="s2">&#34;#2ecc71&#34;</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="n">flatui</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">palplot</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">())</span></code></pre></div>
+<p><img src="seaborn_color_palettes_29_0.png" alt="png" /></p>
+
+<h2 id="set-the-color-of-a-plot">Set the color of a plot</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sns</span><span class="o">.</span><span class="n">tsplot</span><span class="p">([</span><span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_1</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_2</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_3</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_4</span><span class="p">,</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_5</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_6</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">deaths_regiment_7</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;#34495e&#34;</span><span class="p">)</span></code></pre></div>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x116f5db70&gt;
+</code></pre>
+
+<p><img src="seaborn_color_palettes_31_1.png" alt="png" /></p>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

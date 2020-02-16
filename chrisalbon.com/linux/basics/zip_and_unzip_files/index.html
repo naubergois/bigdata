@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Zip And Unzip Files" />
+<meta property="og:description" content="How to zip and unzip files using the Linux command line." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/linux/basics/zip_and_unzip_files/" />
+<meta property="article:published_time" content="2018-06-17T00:00:00-07:00"/>
+<meta property="article:modified_time" content="2018-06-17T00:00:00-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zip And Unzip Files"/>
+<meta name="twitter:description" content="How to zip and unzip files using the Linux command line."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Zip And Unzip Files",
+  "url": "https://chrisalbon.com/linux/basics/zip_and_unzip_files/",
+  "wordCount": "111",
+  "datePublished": "2018-06-17T00:00:00-07:00",
+  "dateModified": "2018-06-17T00:00:00-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "How to zip and unzip files using the Linux command line."
+}
+</script> 
+
+    <title>Zip And Unzip Files</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Zip And Unzip Files</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2018-06-17T00:00:00-07:00 "> 17 Jun 2018</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<h2 id="make-files">Make Files</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">echo &#34;The number of soldiers in the regiment is 24.&#34;<span class="k"> &gt; </span><span class="ge">regiment.txt
+</span><span class="ge"></span>echo &#34;The regiment has seen five battles.&#34; &gt; battles.txt</code></pre></div>
+
+<h2 id="zip-files">Zip Files</h2>
+
+<p>The <code>-v</code> argument is optional, prints an output with the details of the operation.</p>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">gzip regiment.txt battles.txt -v</code></pre></div>
+
+<pre><code>regiment.txt:	 -2.2% -- replaced with regiment.txt.gz
+battles.txt:	 -5.6% -- replaced with battles.txt.gz
+</code></pre>
+
+<h2 id="view-contents-of-directory">View Contents Of Directory</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">ls -l</code></pre></div>
+
+<pre><code>total 8
+-rw-rw-r-- 1 chris chris 68 Jul 31 13:15 battles.txt.gz
+-rw-rw-r-- 1 chris chris 78 Jul 31 13:15 regiment.txt.gz
+</code></pre>
+
+<h2 id="unzip-files">Unzip Files</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">gunzip regiment.txt battles.txt</code></pre></div>
+
+<h2 id="view-contents-of-directory-1">View Contents Of Directory</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">ls -l</code></pre></div>
+
+<pre><code>total 8
+-rw-rw-r-- 1 chris chris 36 Jul 31 13:17 battles.txt
+-rw-rw-r-- 1 chris chris 46 Jul 31 13:17 regiment.txt
+</code></pre>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Impute Missing Values With Means" />
+<meta property="og:description" content="Impute Missing Values With Means." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/machine_learning/preprocessing_structured_data/impute_missing_values_with_means/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Impute Missing Values With Means"/>
+<meta name="twitter:description" content="Impute Missing Values With Means."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Impute Missing Values With Means",
+  "url": "https://chrisalbon.com/machine_learning/preprocessing_structured_data/impute_missing_values_with_means/",
+  "wordCount": "252",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "Impute Missing Values With Means."
+}
+</script> 
+
+    <title>Impute Missing Values With Means</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Impute Missing Values With Means</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<p>Mean imputation replaces missing values with the mean value of that feature/variable. Mean imputation is one of the most &lsquo;naive&rsquo; imputation methods because unlike more complex methods like k-nearest neighbors imputation, it does not use the information we have about an observation to estimate a value for it.</p>
+
+<h2 id="preliminaries">Preliminaries</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">Imputer</span></code></pre></div>
+<h2 id="create-data">Create Data</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create an empty dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="c1"># Create two variables called x0 and x1. Make the first value of x1 a missing value</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3051</span><span class="p">,</span><span class="mf">0.4949</span><span class="p">,</span><span class="mf">0.6974</span><span class="p">,</span><span class="mf">0.3769</span><span class="p">,</span><span class="mf">0.2231</span><span class="p">,</span><span class="mf">0.341</span><span class="p">,</span><span class="mf">0.4436</span><span class="p">,</span><span class="mf">0.5897</span><span class="p">,</span><span class="mf">0.6308</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mf">0.2654</span><span class="p">,</span><span class="mf">0.2615</span><span class="p">,</span><span class="mf">0.5846</span><span class="p">,</span><span class="mf">0.4615</span><span class="p">,</span><span class="mf">0.8308</span><span class="p">,</span><span class="mf">0.4962</span><span class="p">,</span><span class="mf">0.3269</span><span class="p">,</span><span class="mf">0.5346</span><span class="p">,</span><span class="mf">0.6731</span><span class="p">]</span>
+
+<span class="c1"># View the dataset</span>
+<span class="n">df</span></code></pre></div>
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x0</th>
+      <th>x1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.3051</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.4949</td>
+      <td>0.2654</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.6974</td>
+      <td>0.2615</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.3769</td>
+      <td>0.5846</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.2231</td>
+      <td>0.4615</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.3410</td>
+      <td>0.8308</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.4436</td>
+      <td>0.4962</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.5897</td>
+      <td>0.3269</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.6308</td>
+      <td>0.5346</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.5000</td>
+      <td>0.6731</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="fit-imputer">Fit Imputer</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create an imputer object that looks for &#39;Nan&#39; values, then replaces them with the mean value of the feature by columns (axis=0)</span>
+<span class="n">mean_imputer</span> <span class="o">=</span> <span class="n">Imputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="s1">&#39;NaN&#39;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Train the imputor on the df dataset</span>
+<span class="n">mean_imputer</span> <span class="o">=</span> <span class="n">mean_imputer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></code></pre></div>
+<h2 id="apply-imputer">Apply Imputer</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Apply the imputer to the df dataset</span>
+<span class="n">imputed_df</span> <span class="o">=</span> <span class="n">mean_imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></code></pre></div>
+<h2 id="view-data">View Data</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># View the data</span>
+<span class="n">imputed_df</span></code></pre></div>
+<pre><code>array([[ 0.3051    ,  0.49273333],
+       [ 0.4949    ,  0.2654    ],
+       [ 0.6974    ,  0.2615    ],
+       [ 0.3769    ,  0.5846    ],
+       [ 0.2231    ,  0.4615    ],
+       [ 0.341     ,  0.8308    ],
+       [ 0.4436    ,  0.4962    ],
+       [ 0.5897    ,  0.3269    ],
+       [ 0.6308    ,  0.5346    ],
+       [ 0.5       ,  0.6731    ]])
+</code></pre>
+
+<p>Notice that <code>0.49273333</code> is the imputed value, replacing the <code>np.NaN</code> value.</p>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Calibrate Predicted Probabilities" />
+<meta property="og:description" content="How to calibrate predicted probabilities of naive bayes classifer in Scikit-Learn" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/machine_learning/naive_bayes/calibrate_predicted_probabilities/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Calibrate Predicted Probabilities"/>
+<meta name="twitter:description" content="How to calibrate predicted probabilities of naive bayes classifer in Scikit-Learn"/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Calibrate Predicted Probabilities",
+  "url": "https://chrisalbon.com/machine_learning/naive_bayes/calibrate_predicted_probabilities/",
+  "wordCount": "294",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "How to calibrate predicted probabilities of naive bayes classifer in Scikit-Learn"
+}
+</script> 
+
+    <title>Calibrate Predicted Probabilities</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Calibrate Predicted Probabilities</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<p>Class probabilities are a common and useful part of machine learning models. In scikit-learn, most learning algortihms allow us to see the predicted probabilities of class membership using <code>predict_proba</code>. This can be extremely useful if, for instance, we want to only predict a certain class if the model predicts the probability that they are that class is over 90%. However, some models, including naive Bayes classifiers output probabilities that are not based on the real world. That is, <code>predict_proba</code> might predict an observation has a 0.70 chance of being a certain class, when the reality is that it is 0.10 or 0.99. Specifically in naive Bayes, while the ranking of predicted probabilities for the different target classes is valid, the raw predicted probabilities tend to take on extreme values close to 0 and 1.</p>
+
+<p>To obtain meaningful predicted probabilities we need conduct what is called calibration. In scikit-learn we can use the <code>CalibratedClassifierCV</code> class to create well calibrated predicted probabilities using k-fold cross-validation. In <code>CalibratedClassifierCV</code> the training sets are used to train the model and the test sets is used to calibrate the predicted probabilities. The returned predicted probabilities are the average of the k-folds.</p>
+
+<h2 id="preliminaries">Preliminaries</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Load libraries</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.calibration</span> <span class="kn">import</span> <span class="n">CalibratedClassifierCV</span></code></pre></div>
+<h2 id="load-iris-flower-dataset">Load Iris Flower Dataset</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Load data</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span></code></pre></div>
+<h2 id="create-naive-bayes-classifier">Create Naive Bayes Classifier</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create Gaussian Naive Bayes object</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span></code></pre></div>
+<h2 id="create-calibrator">Create Calibrator</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create calibrated cross-validation with sigmoid calibration</span>
+<span class="n">clf_sigmoid</span> <span class="o">=</span> <span class="n">CalibratedClassifierCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span></code></pre></div>
+<h2 id="create-classifier-with-calibrated-probabilities">Create Classifier With Calibrated Probabilities</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Calibrate probabilities</span>
+<span class="n">clf_sigmoid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code></pre></div>
+<pre><code>CalibratedClassifierCV(base_estimator=GaussianNB(priors=None), cv=2,
+            method='sigmoid')
+</code></pre>
+
+<h2 id="create-previously-unseen-observation">Create Previously Unseen Observation</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create new observation</span>
+<span class="n">new_observation</span> <span class="o">=</span> <span class="p">[[</span> <span class="mf">2.6</span><span class="p">,</span>  <span class="mf">2.6</span><span class="p">,</span>  <span class="mf">2.6</span><span class="p">,</span>  <span class="mf">0.4</span><span class="p">]]</span></code></pre></div>
+<h2 id="view-calibrated-probabilities">View Calibrated Probabilities</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># View calibrated probabilities</span>
+<span class="n">clf_sigmoid</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">new_observation</span><span class="p">)</span></code></pre></div>
+<pre><code>array([[ 0.31859969,  0.63663466,  0.04476565]])
+</code></pre>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

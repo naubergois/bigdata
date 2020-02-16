@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Add Column" />
+<meta property="og:description" content="How to add a column in Snowflake using SQL." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/snowflake/sql/tables/add_column/" />
+<meta property="article:published_time" content="2019-01-28T00:00:00-07:00"/>
+<meta property="article:modified_time" content="2019-01-28T00:00:00-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Add Column"/>
+<meta name="twitter:description" content="How to add a column in Snowflake using SQL."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Add Column",
+  "url": "https://chrisalbon.com/snowflake/sql/tables/add_column/",
+  "wordCount": "177",
+  "datePublished": "2019-01-28T00:00:00-07:00",
+  "dateModified": "2019-01-28T00:00:00-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "How to add a column in Snowflake using SQL."
+}
+</script> 
+
+    <title>Add Column</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Add Column</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2019-01-28T00:00:00-07:00 "> 28 Jan 2019</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<h2 id="create-table-of-superheroes">Create Table Of Superheroes</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- Create a table called SUPERHEROES. If it already exists, replace it.
+</span><span class="c1"></span><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">TABLE</span> <span class="n">SUPERHEROES</span> <span class="p">(</span>
+  <span class="c1">-- Column called ID allowing up to five characters
+</span><span class="c1"></span>  <span class="s2">&#34;ID&#34;</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> 
+  <span class="c1">-- Column called NAME allowing up to 100 characters
+</span><span class="c1"></span>  <span class="s2">&#34;NAME&#34;</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+  <span class="c1">-- Column called ALTER_EGO allowing up to 100 characters
+</span><span class="c1"></span>  <span class="s2">&#34;ALTER_EGO&#34;</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="p">);</span></code></pre></div>
+
+<h2 id="insert-rows-for-each-superhero">Insert Rows For Each Superhero</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- Insert rows into SUPERHEROES
+</span><span class="c1"></span><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">SUPERHEROES</span> 
+    <span class="c1">-- With the values
+</span><span class="c1"></span>    <span class="k">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;XF6K4&#39;</span><span class="p">,</span> <span class="s1">&#39;Chris Maki&#39;</span><span class="p">,</span> <span class="s1">&#39;The Bomber&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;KD5SK&#39;</span><span class="p">,</span> <span class="s1">&#39;Donny Mav&#39;</span><span class="p">,</span> <span class="s1">&#39;Nuke Miner&#39;</span><span class="p">);</span></code></pre></div>
+
+<h2 id="view-table-of-superheroes">View Table Of Superheroes</h2>
+
+<p><div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- View the SUPERHEROES table
+</span><span class="c1"></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">SUPERHEROES</span><span class="p">;</span></code></pre></div>
+<table border=1>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>ALTER_EGO</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>XF6K4</td>
+            <td>Chris Maki</td>
+            <td>The Bomber</td>
+        </tr>
+        <tr>
+            <td>KD5SK</td>
+            <td>Donny Mav</td>
+            <td>Nuke Miner</td>
+        </tr>
+    </tbody>
+</table></p>
+
+<h2 id="add-a-column">Add A Column</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- Alter the SUPERHEROES table by...
+</span><span class="c1"></span><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">SUPERHEROES</span> 
+<span class="c1">-- Adding a column called WEAPON that allows for 100 characters with the default value of &#34;Fists&#34;
+</span><span class="c1"></span><span class="k">ADD</span> <span class="k">COLUMN</span> <span class="n">WEAPON</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">&#39;Fists&#39;</span>
+<span class="p">;</span></code></pre></div>
+
+<h2 id="view-table-of-superheroes-1">View Table Of Superheroes</h2>
+
+<p><div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="c1">-- View the SUPERHEROES table
+</span><span class="c1"></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">SUPERHEROES</span><span class="p">;</span></code></pre></div>
+<table border=1>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>ALTER_EGO</th>
+            <th>WEAPON</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>XF6K4</td>
+            <td>Chris Maki</td>
+            <td>The Bomber</td>
+            <td>Fists</td>
+        </tr>
+        <tr>
+            <td>KD5SK</td>
+            <td>Donny Mav</td>
+            <td>Nuke Miner</td>
+            <td>Fists</td>
+        </tr>
+    </tbody>
+</table></p>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

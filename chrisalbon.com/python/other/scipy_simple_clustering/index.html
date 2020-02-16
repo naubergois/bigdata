@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Simple Clustering With SciPy" />
+<meta property="og:description" content="Simple clustering with SciPy." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/python/other/scipy_simple_clustering/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Simple Clustering With SciPy"/>
+<meta name="twitter:description" content="Simple clustering with SciPy."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Simple Clustering With SciPy",
+  "url": "https://chrisalbon.com/python/other/scipy_simple_clustering/",
+  "wordCount": "739",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "Simple clustering with SciPy."
+}
+</script> 
+
+    <title>Simple Clustering With SciPy</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Simple Clustering With SciPy</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<h3 id="import-modules">Import modules</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.cluster</span> <span class="kn">import</span> <span class="n">vq</span></code></pre></div>
+<h3 id="create-coordinates-for-battles-for-each-year-of-the-war">Create coordinates for battles for each year of the war</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># create 100 coordinate pairs (i.e. two values), then add 5 to all of them</span>
+<span class="n">year_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">5</span>
+
+<span class="c1"># create 30 coordinatee pairs (i.e. two values), then subtract 5 to all of them</span>
+<span class="n">year_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span>
+
+<span class="c1"># create 50 coordinatee pairs (i.e. two values)</span>
+<span class="n">year_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></code></pre></div>
+<h3 id="view-the-first-3-entries-of-each-year-of-battles">View the first 3 entries of each year of battles</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="s1">&#39;year 1 battles:&#39;</span><span class="p">,</span>  <span class="n">year_1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;year 2 battles:&#39;</span><span class="p">,</span> <span class="n">year_2</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;year 3 battles:&#39;</span><span class="p">,</span> <span class="n">year_3</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span></code></pre></div>
+<pre><code>year 1 battles: [[ 5.25720722  4.78051294]
+ [ 4.11980541  6.24062638]
+ [ 4.04612449  5.23819217]]
+year 2 battles: [[-3.90607071 -5.20880154]
+ [-4.14244415 -4.52520445]
+ [-6.01162308 -5.53489708]]
+year 3 battles: [[-0.54820297 -0.97483204]
+ [ 0.12813873  0.55198748]
+ [-0.55677223 -0.68900608]]
+</code></pre>
+
+<h3 id="pool-all-three-years-of-coordinates">Pool all three years of coordinates</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># vertically stack year_1, year_2, and year_3 elements</span>
+<span class="n">battles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">year_1</span><span class="p">,</span> <span class="n">year_2</span><span class="p">,</span> <span class="n">year_3</span><span class="p">])</span></code></pre></div>
+<h3 id="cluster-the-battle-locations-into-three-groups">Cluster the battle locations into three groups</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># calculate the centroid coordinates of each cluster </span>
+<span class="c1"># and the variance of all the clusters</span>
+<span class="n">centroids</span><span class="p">,</span> <span class="n">variance</span>  <span class="o">=</span> <span class="n">vq</span><span class="o">.</span><span class="n">kmeans</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></code></pre></div>
+<h3 id="view-the-centroid-coordinate-for-each-of-the-three-clusters">View the centroid coordinate for each of the three clusters</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">centroids</span></code></pre></div>
+<pre><code>array([[ 5.02707263,  5.03041508],
+       [-0.05392784,  0.12892838],
+       [-4.88957266, -4.85051116]])
+</code></pre>
+
+<h3 id="view-the-variance-of-the-clusters-they-all-share-the-same">View the variance of the clusters (they all share the same)</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">variance</span></code></pre></div>
+<pre><code>1.2948126660038406
+</code></pre>
+
+<h3 id="separate-the-battle-data-into-clusters">Separate the battle data into clusters</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">identified</span><span class="p">,</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">vq</span><span class="o">.</span><span class="n">vq</span><span class="p">(</span><span class="n">battles</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span></code></pre></div>
+<h3 id="view-the-cluster-of-each-battle">View the cluster of each battle</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">identified</span></code></pre></div>
+<pre><code>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+       2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=int32)
+</code></pre>
+
+<h3 id="view-the-distance-of-each-individual-battle-from-their-cluster-s-centroid">View the distance of each individual battle from their cluster&rsquo;s centroid</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">distance</span></code></pre></div>
+<pre><code>array([ 0.3397249 ,  1.51252941,  1.00271161,  0.7583883 ,  0.58103782,
+        1.81905849,  1.45452846,  1.34523274,  0.69254441,  3.32123157,
+        1.73900653,  1.01999434,  1.5392708 ,  0.64417605,  1.25822142,
+        1.68913457,  1.09543587,  0.20750281,  2.90778804,  1.62549404,
+        1.0224336 ,  1.05196193,  0.98434964,  0.25634371,  1.19779956,
+        1.73517217,  2.69339667,  1.32792584,  0.97809768,  1.52654056,
+        2.20554365,  1.0403091 ,  0.93698624,  1.53359041,  0.91717984,
+        0.3008527 ,  0.42901893,  0.95824461,  1.93321831,  1.89139314,
+        1.49982335,  0.63265951,  1.48579627,  1.04574742,  0.83477916,
+        2.80489932,  1.50671741,  0.35230994,  1.18607368,  1.36078497,
+        1.17298152,  0.95961251,  0.95348923,  1.41903574,  1.7816999 ,
+        1.32087763,  0.94807163,  2.22741733,  0.66198152,  0.97404075,
+        0.24009773,  1.22021557,  1.36298565,  1.77358477,  0.62586652,
+        1.45234278,  1.87925214,  2.18673534,  0.97113871,  1.0436524 ,
+        1.63491437,  1.43922603,  1.8066756 ,  2.55661988,  0.64905457,
+        0.6939938 ,  1.41183181,  2.72140674,  1.70390906,  3.53986459,
+        1.52044903,  1.98702847,  1.2488108 ,  2.61774172,  2.66067284,
+        0.80078946,  0.79648259,  2.72215296,  1.26904383,  1.16048896,
+        1.42571458,  1.18519189,  0.46592397,  0.63831379,  0.2294296 ,
+        0.90199062,  0.99296186,  1.79154225,  0.23854105,  1.19095902,
+        1.0467321 ,  0.81487758,  1.31429876,  0.14625493,  1.04421102,
+        0.72132375,  2.2209666 ,  1.00145286,  1.30465026,  1.57217776,
+        1.31999891,  0.80321763,  2.12942642,  0.81168612,  1.40294667,
+        0.89994242,  1.70402817,  0.79621269,  1.29554062,  1.87340273,
+        2.40582742,  2.99089606,  1.01348705,  0.54974364,  0.39367389,
+        2.28343779,  1.51924388,  0.52095884,  1.54219385,  0.62972955,
+        1.20937793,  0.46057272,  0.96014023,  0.2287637 ,  0.84009151,
+        1.34393522,  1.5983523 ,  0.46066181,  0.49504327,  2.22788557,
+        1.74688212,  1.99998478,  0.25864751,  1.06955924,  1.68029793,
+        3.41862662,  1.9273365 ,  0.91580509,  0.94390424,  1.42991149,
+        0.64314749,  0.26250126,  1.09000179,  0.42658645,  0.40866344,
+        0.47829004,  0.47718204,  0.53641019,  1.42037169,  2.20413065,
+        1.85270104,  1.9544685 ,  1.40727147,  0.85730366,  1.63316935,
+        1.09642325,  1.36490331,  1.307389  ,  1.9727463 ,  1.35859479,
+        2.43699622,  0.80833152,  2.50758584,  0.95216108,  0.16936114,
+        0.98714981,  0.19962377,  1.13262204,  2.47056129,  2.00154513])
+</code></pre>
+
+<h3 id="index-the-battles-data-by-the-cluster-to-which-they-belong">Index the battles data by the cluster to which they belong</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">cluster_1</span> <span class="o">=</span> <span class="n">battles</span><span class="p">[</span><span class="n">identified</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">cluster_2</span> <span class="o">=</span> <span class="n">battles</span><span class="p">[</span><span class="n">identified</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">cluster_3</span> <span class="o">=</span> <span class="n">battles</span><span class="p">[</span><span class="n">identified</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span></code></pre></div>
+<h3 id="print-the-first-three-coordinate-pairs-of-each-cluster">Print the first three coordinate pairs of each cluster</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">cluster_1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">cluster_2</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">cluster_3</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span></code></pre></div>
+<pre><code>[[ 5.25720722  4.78051294]
+ [ 4.11980541  6.24062638]
+ [ 4.04612449  5.23819217]]
+[[-0.54820297 -0.97483204]
+ [ 0.12813873  0.55198748]
+ [-0.55677223 -0.68900608]]
+[[-3.90607071 -5.20880154]
+ [-4.14244415 -4.52520445]
+ [-6.01162308 -5.53489708]]
+</code></pre>
+
+<h3 id="plot-all-the-battles-color-each-battle-by-cluster">Plot all the battles, color each battle by cluster</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># create a scatter plot there the x-axis is the first column of battles</span>
+<span class="c1"># the y-axis is the second column of battles, the size is 100, and</span>
+<span class="c1"># the color of each point is determined by the indentified variable</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">battles</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">battles</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">identified</span><span class="p">)</span></code></pre></div>
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x10d43f588&gt;
+</code></pre>
+
+<p><img src="scipy_simple_clustering_26_1.png" alt="png" /></p>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

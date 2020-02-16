@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Comparing Text Files" />
+<meta property="og:description" content="How compare text files using the Linux command line." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/linux/text/comparing_text_files/" />
+<meta property="article:published_time" content="2018-06-17T00:00:00-07:00"/>
+<meta property="article:modified_time" content="2018-06-17T00:00:00-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Comparing Text Files"/>
+<meta name="twitter:description" content="How compare text files using the Linux command line."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Comparing Text Files",
+  "url": "https://chrisalbon.com/linux/text/comparing_text_files/",
+  "wordCount": "241",
+  "datePublished": "2018-06-17T00:00:00-07:00",
+  "dateModified": "2018-06-17T00:00:00-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "How compare text files using the Linux command line."
+}
+</script> 
+
+    <title>Comparing Text Files</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Comparing Text Files</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2018-06-17T00:00:00-07:00 "> 17 Jun 2018</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<p>The <code>diff</code> command in Linux will show us the where the lines in text files differ and ignore lines that are the same.</p>
+
+<h2 id="create-text-file-1">Create Text File 1</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">echo &#34;Khaydarbi Melikov is a foot soldier.&#34; &gt;&gt; regiment_version1.txt<span class="err">
+</span><span class="err"></span>echo &#34;Khaydarbi Melikov is a member of the the Maroon Martyrs regiment&#34; &gt;&gt; regiment_version1.txt</code></pre></div>
+
+<h2 id="create-text-file-2">Create Text File 2</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">echo &#34;Khaydarbi Melikov is a foot soldier.&#34; &gt;&gt; regiment_version2.txt<span class="err">
+</span><span class="err"></span>echo &#34;Khaydarbi Melikov is a member of the Reserve regiment&#34; &gt;&gt; regiment_version2.txt</code></pre></div>
+
+<h2 id="view-text-file-1">View Text File 1</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">$ cat regiment_version1.txt</code></pre></div>
+
+<pre><code>Khaydarbi Melikov is a foot soldier.
+Khaydarbi Melikov is a member of the the Maroon Martyrs regiment
+</code></pre>
+
+<h2 id="view-text-file-2">View Text File 2</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">$ cat regiment_version1.txt</code></pre></div>
+
+<pre><code>Khaydarbi Melikov is a foot soldier.
+Khaydarbi Melikov is a member of the Reserve regiment
+</code></pre>
+
+<h2 id="create-compare-text-files">Create Compare Text Files</h2>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">diff regiment_version1.txt regiment_version2.txt</code></pre></div>
+
+<pre><code>2c2
+&lt; Khaydarbi Melikov is a member of the the Maroon Martyrs regiment
+---
+&gt; Khaydarbi Melikov is a member of the Reserve regiment
+</code></pre>
+
+<p>Notice that the lines that matched are not shown, instead it outputs only the line in both documents that differs.</p>
+
+<p>If we want to see the context around the differences, we can use the <code>-c</code> argument:</p>
+
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">diff -c regiment_version1.txt regiment_version2.txt</code></pre></div>
+
+<pre><code>*** regiment_version1.txt	2018-08-03 11:20:07.313559654 -0700
+--- regiment_version2.txt	2018-08-03 11:20:10.077617610 -0700
+***************
+*** 1,2 ****
+  Khaydarbi Melikov is a foot soldier.
+! Khaydarbi Melikov is a member of the the Maroon Martyrs regiment
+--- 1,2 ----rm
+  Khaydarbi Melikov is a foot soldier.
+! Khaydarbi Melikov is a member of the Reserve regiment
+</code></pre>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Prevent Ubuntu 18.06 And Nvidia Drivers From Updating" />
+<meta property="og:description" content="Prevent Ubuntu 18.06 And Nvidia Drivers From Updating" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/deep_learning/setup/prevent_nvidia_drivers_from_upgrading/" />
+<meta property="article:published_time" content="2020-02-01T00:00:00-07:00"/>
+<meta property="article:modified_time" content="2020-02-01T00:00:00-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prevent Ubuntu 18.06 And Nvidia Drivers From Updating"/>
+<meta name="twitter:description" content="Prevent Ubuntu 18.06 And Nvidia Drivers From Updating"/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Prevent Ubuntu 18.06 And Nvidia Drivers From Updating",
+  "url": "https://chrisalbon.com/deep_learning/setup/prevent_nvidia_drivers_from_upgrading/",
+  "wordCount": "280",
+  "datePublished": "2020-02-01T00:00:00-07:00",
+  "dateModified": "2020-02-01T00:00:00-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "Prevent Ubuntu 18.06 And Nvidia Drivers From Updating"
+}
+</script> 
+
+    <title>Prevent Ubuntu 18.06 And Nvidia Drivers From Updating</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Prevent Ubuntu 18.06 And Nvidia Drivers From Updating</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2020-02-01T00:00:00-07:00 "> 01 Feb 2020</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<p>Ubuntu and NVIDIA&rsquo;s drivers are continually being developed. Normally this is a good thing, however an update from either can break a working deep learning environment and by default these updates are automatic.</p>
+
+<p>After successfully setting up your deep learning system and testing that it works, it is recommended to freeze the system in place by preventing automatic updates of both the NVIDIA drivers and Ubuntu.</p>
+
+<h2 id="check-nvidia-driver-version">Check NVIDIA Driver Version</h2>
+
+<p><code>nvidia-smi</code></p>
+
+<pre><code>+-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.44       Driver Version: 440.44       CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 108...  Off  | 00000000:41:00.0 Off |                  N/A |
+|  0%   28C    P8    11W / 250W |    112MiB / 11176MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1310      G   /usr/lib/xorg/Xorg                            41MiB |
+|    0      1608      G   /usr/bin/gnome-shell                          67MiB |
++-----------------------------------------------------------------------------+
+</code></pre>
+
+<h2 id="view-list-of-all-installed-packages">View List Of All Installed Packages</h2>
+
+<p><code>apt list --installed</code></p>
+
+<pre><code>...
+yelp/bionic,now 3.26.0-1ubuntu2 amd64 [installed]
+yelp-xsl/bionic,bionic,now 3.20.1-4 all [installed]
+zeitgeist-core/bionic,now 1.0-0.1ubuntu1 amd64 [installed]
+zenity/bionic,now 3.28.1-1 amd64 [installed]
+zenity-common/bionic,bionic,now 3.28.1-1 all [installed]
+zip/bionic,now 3.0-11build1 amd64 [installed]
+zlib1g/bionic,now 1:1.2.11.dfsg-0ubuntu2 amd64 [installed]
+zlib1g-dev/bionic,now 1:1.2.11.dfsg-0ubuntu2 amd64 [installed,automatic]
+</code></pre>
+
+<h2 id="freeze-nvidia-drivers">Freeze NVIDIA Drivers</h2>
+
+<p>Using The Package Names Found In The Output Above, Hold The NVIDIA Drivers At Current Version. The <code>440</code> seen below is the current version of the NVIDIA packages, yours will be different.</p>
+
+<p><code>sudo apt-mark hold nvidia-compute-utils-440 nvidia-dkms-440 nvidia-driver-440 nvidia-kernel-common-440 nvidia-kernel-source-440 nvidia-modprobe nvidia-prime nvidia-settings nvidia-utils-440</code></p>
+
+<h2 id="prevent-ubuntu-from-updating">Prevent Ubuntu From Updating</h2>
+
+<p>Edit <code>/etc/apt/apt.conf.d/20auto-upgrades</code> in <code>sudo</code>. Then change</p>
+
+<pre><code>APT::Periodic::Update-Package-Lists &quot;1&quot;;
+APT::Periodic::Download-Upgradeable-Packages &quot;1&quot;;
+APT::Periodic::AutocleanInterval &quot;0&quot;;
+APT::Periodic::Unattended-Upgrade &quot;1&quot;;
+</code></pre>
+
+<p>to</p>
+
+<pre><code>APT::Periodic::Update-Package-Lists &quot;0&quot;;
+APT::Periodic::Download-Upgradeable-Packages &quot;1&quot;;
+APT::Periodic::AutocleanInterval &quot;0&quot;;
+APT::Periodic::Unattended-Upgrade &quot;0&quot;;
+</code></pre>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

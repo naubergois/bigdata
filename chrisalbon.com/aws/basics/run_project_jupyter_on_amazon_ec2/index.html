@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Run Project Jupyter Notebooks On Amazon EC2" />
+<meta property="og:description" content="Run Project Jupyter Notebooks On Amazon EC2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/aws/basics/run_project_jupyter_on_amazon_ec2/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Run Project Jupyter Notebooks On Amazon EC2"/>
+<meta name="twitter:description" content="Run Project Jupyter Notebooks On Amazon EC2."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Run Project Jupyter Notebooks On Amazon EC2",
+  "url": "https://chrisalbon.com/aws/basics/run_project_jupyter_on_amazon_ec2/",
+  "wordCount": "583",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "Run Project Jupyter Notebooks On Amazon EC2."
+}
+</script> 
+
+    <title>Run Project Jupyter Notebooks On Amazon EC2</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Run Project Jupyter Notebooks On Amazon EC2</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<p>This is tutorial on running Project Jupyter Notebook on an Amazon EC2 instance. It is based on a <a href="http://blog.impiyush.me/2015/02/running-ipython-notebook-server-on-aws.html">tutorial</a> by Piyush Agarwal which did not work for me immediately, but I tweaked a few things and got it working.</p>
+
+<p>Note: This is not a beginner&rsquo;s tutorial. I don&rsquo;t explain some of the steps fully and don&rsquo;t explain some concepts. There are other tutorials out there for that.</p>
+
+<h2 id="create-an-aws-account">Create an AWS account</h2>
+
+<p>An EC2 instance requires an AWS account. <a href="https://aws.amazon.com/">You can make an account here</a>.</p>
+
+<h2 id="navigate-to-ec2">Navigate to EC2</h2>
+
+<p>Log into AWS and go to the EC2 main page. Then you will see a &lsquo;Launch Instance&rsquo; button.</p>
+
+<h2 id="launch-a-new-instance">Launch a new instance</h2>
+
+<p><img src="launch_instance.png" alt="png" /></p>
+
+<h2 id="select-ubuntu">Select Ubuntu</h2>
+
+<p><img src="select_ubuntu.png" alt="Select Ubuntu" /></p>
+
+<h2 id="select-t2-micro">Select t2.micro</h2>
+
+<p><img src="select_micro_t2.png" alt="Select Micro T2" /></p>
+
+<h2 id="check-out-your-new-instance">Check out your new instance</h2>
+
+<p><img src="comes_with_8gig.png" alt="png" /></p>
+
+<h2 id="create-a-new-security-group">Create a new security group</h2>
+
+<p><img src="security_group.png" alt="png" /></p>
+
+<h2 id="create-and-download-a-new-key-pair">Create and download a new key pair</h2>
+
+<p><img src="key_pair.png" alt="png" /></p>
+
+<h2 id="view-connect-instructions">View connect instructions</h2>
+
+<p><img src="connect_1.png" alt="connect_1" /></p>
+
+<p><img src="connect_2.png" alt="connect_2" /></p>
+
+<h2 id="set-permissions-on-key-pair">Set permissions on key pair</h2>
+
+<p><code>chmod 400 tutorial.pem</code></p>
+
+<h2 id="open-terminal">Open terminal</h2>
+
+<p><img src="terminal.png" alt="terminal" /></p>
+
+<h2 id="connect-using-ssh">Connect using ssh</h2>
+
+<p><img src="ssh.png" alt="ssh" /></p>
+
+<p><code>ssh -i &quot;tutorial.pem&quot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0d5c2d5ced4d5e0c5c3928d95928d93998d9293998d96968ed5d38dd7c5d3d48d928ec3cfcdd0d5d4c58ec1cdc1dacfcec1d7d38ec3cfcd">[email&#160;protected]</a></code></p>
+
+<p><code>Are you sure you want to continue connecting (yes/no)?</code></p>
+
+<p><img src="command.png" alt="success!" /></p>
+
+<h2 id="download-anaconda-to-instance">Download Anaconda to instance</h2>
+
+<p>Visit Anaconda&rsquo;s <a href="https://www.continuum.io/downloads">download page</a> and right click to get the url of the latest version of the Linux 64-bit version. In my case this url was:</p>
+
+<p><code>https://repo.continuum.io/archive/Anaconda3-4.2.0-Linux-x86_64.sh</code></p>
+
+<p><img src="anaconda.png" alt="Anaconda!" /></p>
+
+<p>Now, back in the terminal, tell the EC2 instance to download that file. Note: You aren&rsquo;t downloading the file to your computer, you are downloading it to the EC2 instance and installing it from there.</p>
+
+<p><code>wget https://repo.continuum.io/archive/Anaconda3-4.2.0-Linux-x86_64.sh</code></p>
+
+<p><img src="anaconda_download.png" alt="Anaconda!" /></p>
+
+<h2 id="install-anaconda">Install Anaconda</h2>
+
+<p><code>bash Anaconda3-4.2.0-Linux-x86_64.sh</code></p>
+
+<p>Press enter a few times</p>
+
+<p>Type &lsquo;yes&rsquo; to agree</p>
+
+<p>&lsquo;Press ENTER to confirm the location&rsquo;</p>
+
+<p><img src="anaconda_install.png" alt="Anaconda!" /></p>
+
+<p><code>Do you wish the installer to prepend the Anaconda3 install location
+to PATH in your /home/ubuntu/.bashrc ? [yes|no]
+[no] &gt;&gt;&gt; yes</code></p>
+
+<p>If it doesn&rsquo;t allow you to answer yes, you can manually set it through the prompt they show:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">You may wish to edit your .bashrc or
+prepend the Anaconda3 install location:
+
+$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/home/ubuntu/anaconda3/bin:<span class="nv">$PATH</span></code></pre></div>
+<h2 id="check-that-anaconda-is-the-preferred-environment">Check that Anaconda is the preferred environment</h2>
+
+<p><code>which python</code>
+<code>/home/ubuntu/anaconda3/bin/python</code></p>
+
+<h2 id="create-a-password-for-jupyter-notebook">Create a password for jupyter notebook</h2>
+
+<p><code>ipython</code></p>
+
+<p><code>from IPython.lib import passwd</code></p>
+
+<p><code>passwd()</code></p>
+
+<p><code>Enter password: [Create password and press enter]</code>
+<code>Verify password: [Press enter]</code></p>
+
+<p><code>'sha1:98ff0e580111:12798c72623a6eecd54b51c006b1050f0ac1a62d'</code></p>
+
+<p><code>exit</code></p>
+
+<h2 id="create-config-profile">Create config profile</h2>
+
+<p><code>jupyter notebook --generate-config</code></p>
+
+<h2 id="create-certificates-for-https">Create certificates for https</h2>
+
+<p><code>mkdir certs</code></p>
+
+<p><code>cd certs</code></p>
+
+<p><code>openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem</code></p>
+
+<p>Answer questions</p>
+
+<h2 id="configure-jupyter">Configure jupyter</h2>
+
+<p><code>cd ~/.jupyter/</code></p>
+
+<p><code>vi jupyter_notebook_config.py</code></p>
+
+<p><img src="vi.png" alt="Vim" /></p>
+
+<p>Insert this at the beginning of the document:</p>
+
+<pre><code>c = get_config()
+
+# Kernel config
+c.IPKernelApp.pylab = 'inline'  # if you want plotting support always in your notebook
+
+# Notebook config
+c.NotebookApp.certfile = u'/home/ubuntu/certs/mycert.pem' #location of your certificate file
+c.NotebookApp.ip = '0.0.0.0'
+c.NotebookApp.open_browser = False  #so that the ipython notebook does not opens up a browser by default
+c.NotebookApp.password = u'sha1:98ff0e580111:12798c72623a6eecd54b51c006b1050f0ac1a62d'  #the encrypted password we generated above
+# Set the port to 8888, the port we set up in the AWS EC2 set-up
+c.NotebookApp.port = 8888
+</code></pre>
+
+<p>Remember to replace <code>sha1:98ff0e580111:12798c72623a6eecd54b51c006b1050f0ac1a62d</code> with your password!</p>
+
+<p><img src="vi_2.png" alt="Vim" /></p>
+
+<p>Press <code>esc</code></p>
+
+<p>Press <code>shift-z</code></p>
+
+<h2 id="create-folder-for-notebooks">Create folder for notebooks</h2>
+
+<p><code>cd ~</code></p>
+
+<p><code>mkdir Notebooks</code></p>
+
+<p><code>cd Notebooks</code></p>
+
+<h2 id="create-new-screen">Create new screen</h2>
+
+<p>This command allows you to create a separate screen for just your Jupyter process logs while you continue to do other work on the ec2 instance.</p>
+
+<p><code>screen</code></p>
+
+<h2 id="start-jupyter-notebook">Start Jupyter notebook</h2>
+
+<p><code>sudo chown $USER:$USER /home/ubuntu/certs/mycert.pem</code></p>
+
+<p><code>jupyter notebook</code></p>
+
+<p><img src="load_jupyter.png" alt="jupyter" /></p>
+
+<h2 id="detach-from-screen">Detach from screen</h2>
+
+<p>Command: <code>Ctrl-a</code> and then <code>d</code></p>
+
+<p><strong>Other useful commands:</strong></p>
+
+<ol>
+<li>Create new window: <code>Ctrl-a</code> <code>c</code>.</li>
+<li>Switch windows: <code>Ctrl-a</code> <code>n</code></li>
+<li>Reattach to Screen: <code>screen -r</code></li>
+<li>See running screen processes <code>screen -ls</code></li>
+</ol>
+
+<h2 id="visit-jupyter-notebook-in-browser">Visit Jupyter notebook in browser</h2>
+
+<p>Your EC2 instance will have a long url, like this:</p>
+
+<p><code>ec2-52-39-239-66.us-west-2.compute.amazonaws.com</code></p>
+
+<p>Visit that URL in your browser: (make sure to include the <strong>https</strong> at the beginning, or you&rsquo;ll have access errors.)</p>
+
+<p><code>https://ec2-52-39-239-66.us-west-2.compute.amazonaws.com:8888/</code></p>
+
+<p><img src="chrome1.png" alt="chrome" /></p>
+
+<p><img src="chrome2.png" alt="chrome" /></p>
+
+<p><img src="chrome3.png" alt="chrome" /></p>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

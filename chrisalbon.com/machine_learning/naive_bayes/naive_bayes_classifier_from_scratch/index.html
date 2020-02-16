@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66582-32"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66582-32');
+    </script>
+
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Naive Bayes Classifier From Scratch" />
+<meta property="og:description" content="How to build a naive bayes classifier from scratch in Python." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chrisalbon.com/machine_learning/naive_bayes/naive_bayes_classifier_from_scratch/" />
+<meta property="article:published_time" content="2017-12-20T11:53:49-07:00"/>
+<meta property="article:modified_time" content="2017-12-20T11:53:49-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Naive Bayes Classifier From Scratch"/>
+<meta name="twitter:description" content="How to build a naive bayes classifier from scratch in Python."/>
+<meta name="generator" content="Hugo 0.54.0" /> 
+    
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Naive Bayes Classifier From Scratch",
+  "url": "https://chrisalbon.com/machine_learning/naive_bayes/naive_bayes_classifier_from_scratch/",
+  "wordCount": "1549",
+  "datePublished": "2017-12-20T11:53:49-07:00",
+  "dateModified": "2017-12-20T11:53:49-07:00",
+  "author": {
+    "@type": "Person",
+    "name": "Chris Albon"
+  },
+  "description": "How to build a naive bayes classifier from scratch in Python."
+}
+</script> 
+
+    <title>Naive Bayes Classifier From Scratch</title>
+
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    
+    <link href="https://chrisalbon.com/css/custom.css" rel="stylesheet"> 
+    <link href="https://chrisalbon.com/css/syntax.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,500,700" rel="stylesheet">
+        
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Chris Albon" /> 
+    
+    <link href="https://chrisalbon.com/#articles" rel="alternate" type="application/rss+xml" title="Leadership posts" />
+    
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://chrisalbon.com/">Chris Albon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Technical Notes
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/#machine_learning">Machine Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#deep_learning">Deep Learning</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#python">Python</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#statistics">Statistics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#scala">Scala</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#snowflake">Snowflake</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#postgresql">PostgreSQL</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#linux">Command Line</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#regex">Regular Expressions</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#mathematics">Mathematics</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#aws">AWS</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#git_and_github">Git &amp; GitHub</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#computer_science">Computer Science</a>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chrisalbon.com/#articles">Articles</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://chrisalbon.com/about/chris_albon/">About Chris</a>
+                            <a class="dropdown-item" href="https://github.com/chrisalbon">GitHub</a>
+                            <a class="dropdown-item" href="https://twitter.com/chrisalbon">Twitter</a>
+                            <a class="dropdown-item" href="https://www.amazon.com/Machine-Learning-Python-Cookbook-Preprocessing/dp/1491989386">ML Book</a>
+                            <a class="dropdown-item" href="https://machinelearningflashcards.com/">ML Flashcards</a>
+                            <a class="dropdown-item" href="https://chrisalbon.com/#">Newsletter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                 
+
+
+<article>
+  <div class="technical_note">
+  <header>
+      <div class="alert alert-warning flashcard_ad" role="alert">
+          Learning machine learning? Try my <a href="https://machinelearningflashcards.com" class="alert-link">machine learning flashcards</a> or <a href='https://amzn.to/2HwnWty' class="alert-link">Machine Learning with Python Cookbook</a>.
+      </div>
+    <h1 class="technical_note_title">Naive Bayes Classifier From Scratch</h1>
+    <div class="technical_note_date">
+      <time datetime=" 2017-12-20T11:53:49-07:00 "> 20 Dec 2017</time>
+    </div>
+  </header>
+  <div class="content">
+      
+  
+
+<p>Naive bayes is simple classifier known for doing well when only a small number of observations is available. In this tutorial we will create a gaussian naive bayes classifier from scratch and use it to predict the class of a previously unseen data point. This tutorial is based on an example on Wikipedia&rsquo;s <a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">naive bayes classifier page</a>, I have implemented it in Python and tweaked some notation to improve explanation.</p>
+
+<h2 id="preliminaries">Preliminaries</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span></code></pre></div>
+<h2 id="create-data">Create Data</h2>
+
+<p>Our dataset is contains data on eight individuals. We will use the dataset to construct a classifier that takes in the height, weight, and foot size of an individual and outputs a prediction for their gender.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create an empty dataframe</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="c1"># Create our target variable</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">]</span>
+
+<span class="c1"># Create our feature variables</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mf">5.92</span><span class="p">,</span><span class="mf">5.58</span><span class="p">,</span><span class="mf">5.92</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mf">5.42</span><span class="p">,</span><span class="mf">5.75</span><span class="p">]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">190</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">165</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">150</span><span class="p">]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+
+<span class="c1"># View the data</span>
+<span class="n">data</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Gender</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Foot_Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>male</td>
+      <td>6.00</td>
+      <td>180</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>male</td>
+      <td>5.92</td>
+      <td>190</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>male</td>
+      <td>5.58</td>
+      <td>170</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>male</td>
+      <td>5.92</td>
+      <td>165</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>female</td>
+      <td>5.00</td>
+      <td>100</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>female</td>
+      <td>5.50</td>
+      <td>150</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>female</td>
+      <td>5.42</td>
+      <td>130</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>female</td>
+      <td>5.75</td>
+      <td>150</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>The dataset above is used to construct our classifier. Below we will create a new person for whom we know their feature values but not their gender. Our goal is to predict their gender.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create an empty dataframe</span>
+<span class="n">person</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="c1"># Create some feature values for this single row</span>
+<span class="n">person</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">person</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">130</span><span class="p">]</span>
+<span class="n">person</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="c1"># View the data </span>
+<span class="n">person</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Foot_Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>130</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="bayes-theorem">Bayes Theorem</h2>
+
+<p>Bayes theorem is a famous equation that allows us to make predictions based on data. Here is the classic version of the Bayes theorem:</p>
+
+<p>$$\displaystyle P(A\mid B)={\frac {P(B\mid A)\,P(A)}{P(B)}}$$</p>
+
+<p>This might be too abstract, so let us replace some of the variables to make it more concrete. In a bayes classifier, we are interested in finding out the class (e.g. male or female, spam or ham) of an observation <em>given</em> the data:</p>
+
+<p>$$p(\text{class} \mid \mathbf {\text{data}} )={\frac {p(\mathbf {\text{data}} \mid \text{class}) * p(\text{class})}{p(\mathbf {\text{data}} )}}$$</p>
+
+<p>where:</p>
+
+<ul>
+<li>$\text{class}$ is a particular class (e.g. male)</li>
+<li>$\mathbf {\text{data}}$ is an observation&rsquo;s data</li>
+<li>$p(\text{class} \mid \mathbf {\text{data}} )$ is called the posterior</li>
+<li>$p(\text{data|class})$ is called the likelihood</li>
+<li>$p(\text{class})$ is called the prior</li>
+<li>$p(\mathbf {\text{data}} )$ is called the marginal probability</li>
+</ul>
+
+<p>In a bayes classifier, we calculate the posterior (technically we only calculate the numerator of the posterior, but ignore that for now) for every class for each observation. Then, classify the observation based on the class with the largest posterior value. In our example, we have one observation to predict and two possible classes (e.g. male and female), therefore we will calculate two posteriors: one for male and one for female.</p>
+
+<p>$$p(\text{person is male} \mid \mathbf {\text{person&rsquo;s data}} )={\frac {p(\mathbf {\text{person&rsquo;s data}} \mid \text{person is male}) * p(\text{person is male})}{p(\mathbf {\text{person&rsquo;s data}} )}}$$</p>
+
+<p>$$p(\text{person is female} \mid \mathbf {\text{person&rsquo;s data}} )={\frac {p(\mathbf {\text{person&rsquo;s data}} \mid \text{person is female}) * p(\text{person is female})}{p(\mathbf {\text{person&rsquo;s data}} )}}$$</p>
+
+<h2 id="gaussian-naive-bayes-classifier">Gaussian Naive Bayes Classifier</h2>
+
+<p>A gaussian naive bayes is probably the most popular type of bayes classifier. To explain what the name means, let us look at what the bayes equations looks like when we apply our two classes (male and female) and three feature variables (height, weight, and footsize):</p>
+
+<p>$${\displaystyle {\text{posterior (male)}}={\frac {P({\text{male}})\,p({\text{height}}\mid{\text{male}})\,p({\text{weight}}\mid{\text{male}})\,p({\text{foot size}}\mid{\text{male}})}{\text{marginal probability}}}}$$</p>
+
+<p>$${\displaystyle {\text{posterior (female)}}={\frac {P({\text{female}})\,p({\text{height}}\mid{\text{female}})\,p({\text{weight}}\mid{\text{female}})\,p({\text{foot size}}\mid{\text{female}})}{\text{marginal probability}}}}$$</p>
+
+<p>Now let us unpack the top equation a bit:</p>
+
+<ul>
+<li>$P({\text{male}})$ is the prior probabilities. It is, as you can see, simply the probability an observation is male. This is just the number of males in the dataset divided by the total number of people in the dataset.</li>
+<li>$p({\text{height}}\mid{\text{female}})\,p({\text{weight}}\mid{\text{female}})\,p({\text{foot size}}\mid{\text{female}})$ is the likelihood. Notice that we have unpacked $\mathbf {\text{person&rsquo;s data}}$ so it is now every feature in the dataset. The &ldquo;gaussian&rdquo; and &ldquo;naive&rdquo; come from two assumptions present in this likelihood:
+
+<ol>
+<li>If you look each term in the likelihood you will notice that we assume each feature is uncorrelated from each other. That is, foot size is independent of weight or height etc.. This is obviously not true, and is a &ldquo;naive&rdquo; assumption - hence the name &ldquo;naive bayes.&rdquo;</li>
+<li>Second, we assume have that the value of the features (e.g. the height of women, the weight of women) are normally (gaussian) distributed. This means that $p(\text{height}\mid\text{female})$ is calculated by inputing the required parameters into the probability density function of the normal distribution:</li>
+</ol></li>
+</ul>
+
+<p>$$
+p(\text{height}\mid\text{female})=\frac{1}{\sqrt{2\pi\text{variance of female height in the data}}}\,e^{ -\frac{(\text{observation&rsquo;s height}-\text{average height of females in the data})^2}{2\text{variance of female height in the data}} }
+$$</p>
+
+<ul>
+<li>$\text{marginal probability}$ is probably one of the most confusing parts of bayesian approaches. In toy examples (including ours) it is completely possible to calculate the marginal probability. However, in many real-world cases, it is either extremely difficult or impossible to find the value of the marginal probability (explaining why is beyond the scope of this tutorial). This is not as much of a problem for our classifier as you might think. Why? Because we don&rsquo;t care what the true posterior value is, we only care which class has a the highest posterior value. And because the marginal probability is the same for all classes 1) we can ignore the denominator, 2) calculate only the posterior&rsquo;s numerator for each class, and 3) pick the largest numerator. That is, we can ignore the posterior&rsquo;s denominator and make a prediction solely on the relative values of the posterior&rsquo;s numerator.</li>
+</ul>
+
+<p>Okay! Theory over. Now let us start calculating all the different parts of the bayes equations.</p>
+
+<h2 id="calculate-priors">Calculate Priors</h2>
+
+<p>Priors can be either constants or probability distributions. In our example, this is simply the probability of being a gender. Calculating this is simple:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Number of males</span>
+<span class="n">n_male</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="c1"># Number of males</span>
+<span class="n">n_female</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="c1"># Total rows</span>
+<span class="n">total_ppl</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Gender&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Number of males divided by the total rows</span>
+<span class="n">P_male</span> <span class="o">=</span> <span class="n">n_male</span><span class="o">/</span><span class="n">total_ppl</span>
+
+<span class="c1"># Number of females divided by the total rows</span>
+<span class="n">P_female</span> <span class="o">=</span> <span class="n">n_female</span><span class="o">/</span><span class="n">total_ppl</span></code></pre></div>
+<h2 id="calculate-likelihood">Calculate Likelihood</h2>
+
+<p>Remember that each term (e.g. $p(\text{height}\mid\text{female})$) in our likelihood is assumed to be a normal pdf. For example:</p>
+
+<p>$$
+p(\text{height}\mid\text{female})=\frac{1}{\sqrt{2\pi\text{variance of female height in the data}}}\,e^{ -\frac{(\text{observation&rsquo;s height}-\text{average height of females in the data})^2}{2\text{variance of female height in the data}} }
+$$</p>
+
+<p>This means that for each class (e.g. female) and feature (e.g. height) combination we need to calculate the variance and mean value from the data. Pandas makes this easy:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Group the data by gender and calculate the means of each feature</span>
+<span class="n">data_means</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Gender&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># View the values</span>
+<span class="n">data_means</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Foot_Size</th>
+    </tr>
+    <tr>
+      <th>Gender</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>female</th>
+      <td>5.4175</td>
+      <td>132.50</td>
+      <td>7.50</td>
+    </tr>
+    <tr>
+      <th>male</th>
+      <td>5.8550</td>
+      <td>176.25</td>
+      <td>11.25</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Group the data by gender and calculate the variance of each feature</span>
+<span class="n">data_variance</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Gender&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+
+<span class="c1"># View the values</span>
+<span class="n">data_variance</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Foot_Size</th>
+    </tr>
+    <tr>
+      <th>Gender</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>female</th>
+      <td>0.097225</td>
+      <td>558.333333</td>
+      <td>1.666667</td>
+    </tr>
+    <tr>
+      <th>male</th>
+      <td>0.035033</td>
+      <td>122.916667</td>
+      <td>0.916667</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Now we can create all the variables we need. The code below might look complex but all we are doing is creating a variable out of each cell in both of the tables above.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Means for male</span>
+<span class="n">male_height_mean</span> <span class="o">=</span> <span class="n">data_means</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">male_weight_mean</span> <span class="o">=</span> <span class="n">data_means</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">male_footsize_mean</span> <span class="o">=</span> <span class="n">data_means</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Variance for male</span>
+<span class="n">male_height_variance</span> <span class="o">=</span> <span class="n">data_variance</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">male_weight_variance</span> <span class="o">=</span> <span class="n">data_variance</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">male_footsize_variance</span> <span class="o">=</span> <span class="n">data_variance</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Means for female</span>
+<span class="n">female_height_mean</span> <span class="o">=</span> <span class="n">data_means</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">female_weight_mean</span> <span class="o">=</span> <span class="n">data_means</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">female_footsize_mean</span> <span class="o">=</span> <span class="n">data_means</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Variance for female</span>
+<span class="n">female_height_variance</span> <span class="o">=</span> <span class="n">data_variance</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">female_weight_variance</span> <span class="o">=</span> <span class="n">data_variance</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">female_footsize_variance</span> <span class="o">=</span> <span class="n">data_variance</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">][</span><span class="n">data_variance</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></code></pre></div>
+<p>Finally, we need to create a function to calculate the probability density of each of the terms of the likelihood (e.g. $p(\text{height}\mid\text{female})$).</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Create a function that calculates p(x | y):</span>
+<span class="k">def</span> <span class="nf">p_x_given_y</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean_y</span><span class="p">,</span> <span class="n">variance_y</span><span class="p">):</span>
+
+    <span class="c1"># Input the arguments into a probability density function</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">variance_y</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">mean_y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">variance_y</span><span class="p">))</span>
+    
+    <span class="c1"># return p</span>
+    <span class="k">return</span> <span class="n">p</span></code></pre></div>
+<h2 id="apply-bayes-classifier-to-new-data-point">Apply Bayes Classifier To New Data Point</h2>
+
+<p>Alright! Our bayes classifier is ready. Remember that since we can ignore the marginal probability (the demoninator), what we are actually calculating is this:</p>
+
+<p>$${\displaystyle {\text{numerator of the posterior}}={P({\text{female}})\,p({\text{height}}\mid{\text{female}})\,p({\text{weight}}\mid{\text{female}})\,p({\text{foot size}}\mid{\text{female}})}{}}$$</p>
+
+<p>To do this, we just need to plug in the values of the unclassified person (height = 6), the variables of the dataset (e.g. mean of female height), and the function (<code>p_x_given_y</code>) we made above:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Numerator of the posterior if the unclassified observation is a male</span>
+<span class="n">P_male</span> <span class="o">*</span> \
+<span class="n">p_x_given_y</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">male_height_mean</span><span class="p">,</span> <span class="n">male_height_variance</span><span class="p">)</span> <span class="o">*</span> \
+<span class="n">p_x_given_y</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">male_weight_mean</span><span class="p">,</span> <span class="n">male_weight_variance</span><span class="p">)</span> <span class="o">*</span> \
+<span class="n">p_x_given_y</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">male_footsize_mean</span><span class="p">,</span> <span class="n">male_footsize_variance</span><span class="p">)</span></code></pre></div>
+<pre><code>6.197071843878078e-09
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Numerator of the posterior if the unclassified observation is a female</span>
+<span class="n">P_female</span> <span class="o">*</span> \
+<span class="n">p_x_given_y</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">female_height_mean</span><span class="p">,</span> <span class="n">female_height_variance</span><span class="p">)</span> <span class="o">*</span> \
+<span class="n">p_x_given_y</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">female_weight_mean</span><span class="p">,</span> <span class="n">female_weight_variance</span><span class="p">)</span> <span class="o">*</span> \
+<span class="n">p_x_given_y</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;Foot_Size&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">female_footsize_mean</span><span class="p">,</span> <span class="n">female_footsize_variance</span><span class="p">)</span></code></pre></div>
+<pre><code>0.0005377909183630018
+</code></pre>
+
+<p>Because the numerator of the posterior for female is greater than male, then we predict that the person is female.</p>
+
+</div>
+  <aside>
+      <div class="bug_reporting">
+          <h4>Find an error or bug?</h4>
+          <p>Everything on this site is available on GitHub. Head to <a href='https://github.com/chrisalbon/notes/issues/new'>and submit a suggested change</a>. Include the tutorial's URL in the issue.</p>
+      </div>
+      </aside>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; Chris Albon, <time datetime="2020">2020</time>. All 622 notes and articles are available on <a href="https://github.com/chrisalbon/notes">GitHub</a>.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
