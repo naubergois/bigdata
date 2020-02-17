@@ -1,0 +1,66 @@
+##########################################################################
+#
+#  					Mongo DB Basic Operations : Practice Solutions 
+# 			 Copyright : V2 Maestros,LLC @2016-2017
+#
+##########################################################################
+
+1. Create a Database "books_store"
+
+use book_store;
+
+2. Create a collection "books" with the following data
+
+ID		Title					Pages	Year
+1001	Learning MongoDB		256		2015
+1002	Windows Tips and Tricks	740		2012
+1003	Scala Basics			430		2014
+1004	Unix Shell				500		2013
+
+db.createCollection("books");
+
+db.books.insert(
+	[
+		{
+			"id" : 1001,
+			"title" : "Learning MongoDB",
+			"pages" : 256,
+			"year" : "2015"
+		},
+		{
+			"id" : 1002,
+			"title" : "Windows Tips and Tricks",
+			"pages" : 740,
+			"year" : "2012"
+		},	
+		{
+			"id" : 1003,
+			"title" : "Scala Basics",
+			"pages" : 430,
+			"year" : "2014"
+		},
+		{
+			"id" : 1004,
+			"title" : "Unix Shell",
+			"pages" : 500,
+			"year" : "2013"
+		}		
+	]
+);
+
+3. Find all books which have more than 500 pages or published in 2014
+
+db.books.find(
+	{	$or : 
+		[
+			{ pages : {$gt:500}}, 
+			{year:"2014" }
+		]
+	}
+).pretty();
+
+4. Update the no. of pages for book "Unix Shell" to 450
+db.books.update(
+	{ "title" : "Unix Shell"},
+	{ $set :  { "pages" : 450} }
+);

@@ -1,0 +1,5 @@
+"SALES_ID","CUST_ID","PRODUCT","PRICE","SALES_DATE"
+1,2,"Laptop",1500,"2016-12-01"
+2,2,"Headphones",25,"2016-12-07"
+3,3,"Charger",50,"2016-12-15"
+4,4,"Keyboard",45,"2016-12-08"

@@ -1,0 +1,112 @@
+##########################################################################
+#
+#  					Mongo DB - Basic Operations : Examples 
+# 			 Copyright : V2 Maestros,LLC @2016-2017
+#
+##########################################################################
+
+#Start MongoDB Server in windows. 
+#	1. Create Data directory C:/data/db before
+#	2. Go to bin folder where mongodb is installed
+
+mongod
+
+#Create a Database
+#	1. Using a Database automatically creates one
+
+use demos;
+
+#Create a Collection
+
+db.createCollection("customer");
+
+#View all collections in a database
+
+show collections;
+
+#insert document into a collection
+
+db.customer.insert(
+	{
+		"id" : 1001,
+		"name" : "Steve Smith",
+		"gender" : "M",
+		"sales" : 1500
+	}
+);
+
+db.customer.insert(
+	[
+		{
+			"id" : 1002,
+			"name" : "Kelly Oswald",
+			"gender" : "F",
+			"sales" : 1000
+		},
+		{
+			"id" : 1003,
+			"name" : "Ian Seed",
+			"gender" : "M",
+			"sales" : 500
+		}
+	]
+);
+
+
+#Querying data in a Collection
+
+db.customer.find();
+
+db.customer.count();
+
+db.customer.find().pretty();
+
+#Query with Equality condition 
+db.customer.find(
+	{ name : "Steve Smith"}
+).pretty();
+
+#Query with relational condition : lt, lte, gt, gte, ne
+db.customer.find(
+	{ id : {$lt:1002} }
+).pretty();
+
+#Query with AND
+db.customer.find(
+	{ id : {$lte:1002}, 
+	gender:"F" }
+).pretty();
+
+#Query with OR
+db.customer.find(
+	{	$or : 
+		[
+			{ id : {$lte:1002}}, 
+			{gender:"F" }
+		]
+	}
+).pretty();
+
+#Update Data for specific fields
+db.customer.update(
+	{ id : 1001},
+	{ $set : {
+			name : "Steven Smith"
+			}
+	}
+);
+
+#Create new record if not exists
+db.customer.update(
+	{ id : 1004},
+	{ name : "Roger David"},
+	{ upsert : true}
+);
+
+#Delete Data
+db.customer.remove(
+	{ name : "Roger David"}
+);
+
+#drop a collection
+db.customer.drop()
